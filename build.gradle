@@ -18,3 +18,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.withType(Javadoc){
+    options.memberLevel = JavadocMemberLevel.PRIVATE
+}
