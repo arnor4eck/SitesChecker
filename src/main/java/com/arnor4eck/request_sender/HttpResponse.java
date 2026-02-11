@@ -4,4 +4,4 @@ package com.arnor4eck.request_sender;
  * @param hash Хеш-код HTML страницы
  * @param httpCode Код ответа сайта
  * */
-public record HttpResponse(int httpCode, String hash) {}
+public record HttpResponse(short httpCode, String hash) {}

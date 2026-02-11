@@ -42,7 +42,7 @@ public class OkHttpRequestSender implements RequestSender {
             HttpResponse<String> r = httpClient
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
-            return new com.arnor4eck.request_sender.HttpResponse(r.statusCode(),
+            return new com.arnor4eck.request_sender.HttpResponse((short) r.statusCode(),
                     String.valueOf(r.body().hashCode()));
 
         } catch (IOException | InterruptedException e) {
