@@ -21,7 +21,7 @@ public class InMemorySiteStatisticsStorage implements SiteStatisticsStorage {
     private final Map<Long, SiteStatistics> statistics = new ConcurrentHashMap<>();
 
     @Override
-    public SiteStatistics create(CreateSiteStatisticsRequest request) {
+    public void create(CreateSiteStatisticsRequest request) {
         SiteStatistics newStatistics = new SiteStatistics(counter.addAndGet(1),
                 request.checkTime(),
                 request.httpCode(),
@@ -31,7 +31,14 @@ public class InMemorySiteStatisticsStorage implements SiteStatisticsStorage {
 
         statistics.put(newStatistics.getId(), newStatistics);
 
-        return newStatistics;
+    }
+
+    @Override
+    public Optional<SiteStatistics> getLastStatisticsByMonitoringTaskId(long monitoringTaskId) {
+        return Optional.ofNullable(
+                statistics.values().stream()
+                        .filter(s -> s.getMonitoringTaskId() == monitoringTaskId)
+                        .toList().getLast());
     }
 
     @Override
