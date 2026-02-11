@@ -49,4 +49,9 @@ public final class MonitoringTask {
     public void changeNextCheckTime(){
         this.nextCheckTime = LocalDateTime.now().plus(period, unit);
     }
+
+    public MonitoringTask clone(){
+        return new MonitoringTask(id, url, name, period, unit);
+    }
+
 }
