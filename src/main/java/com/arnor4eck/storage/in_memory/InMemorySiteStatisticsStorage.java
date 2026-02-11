@@ -34,11 +34,10 @@ public class InMemorySiteStatisticsStorage implements SiteStatisticsStorage {
     }
 
     @Override
-    public Optional<SiteStatistics> getLastStatisticsByMonitoringTaskId(long monitoringTaskId) {
-        return Optional.ofNullable(
-                statistics.values().stream()
+    public synchronized Optional<SiteStatistics> getLastStatisticsByMonitoringTaskId(long monitoringTaskId) {
+        return statistics.values().stream()
                         .filter(s -> s.getMonitoringTaskId() == monitoringTaskId)
-                        .toList().getLast());
+                        .max(Comparator.comparing(SiteStatistics::getCheckTime));
     }
 
     @Override
