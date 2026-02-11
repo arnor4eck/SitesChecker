@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class SiteStatisticsStorage {
+public class SiteStatisticsStorageTest {
 
     private InMemorySiteStatisticsStorage storage;
 
