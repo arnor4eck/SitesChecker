@@ -2,6 +2,7 @@ package com.arnor4eck.storage.in_memory;
 
 import com.arnor4eck.entity.MonitoringTask;
 import com.arnor4eck.storage.MonitoringTaskStorage;
+import com.arnor4eck.util.exception.UpdatableTaskNotExist;
 import com.arnor4eck.util.request.CreateMonitoringTaskRequest;
 
 import java.util.*;
@@ -32,6 +33,17 @@ public class InMemoryMonitoringTaskStorage implements MonitoringTaskStorage {
         tasks.put(newTask.getId(), newTask);
 
         return newTask;
+    }
+
+    @Override
+    public MonitoringTask updateExistingMonitoringTask(MonitoringTask monitoringTask) {
+        MonitoringTask existingTask = this.getById(monitoringTask.getId())
+                .orElseThrow(() -> new UpdatableTaskNotExist(
+                        String.format("Monitoring task with id '%d' does not exist", monitoringTask.getId())));
+
+        tasks.put(existingTask.getId(), existingTask.clone());
+
+        return existingTask;
     }
 
     @Override

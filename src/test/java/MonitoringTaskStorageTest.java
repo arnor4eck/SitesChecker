@@ -56,7 +56,7 @@ public class MonitoringTaskStorageTest {
     }
 
     @Test
-    public void shouldReturnCollection(){
+    public void testShouldReturnCollection(){
         final int SIZE = 5;
 
         for(int i = 0; i < SIZE; i++){
@@ -69,5 +69,24 @@ public class MonitoringTaskStorageTest {
         Collection<MonitoringTask> collection = monitoringTaskStorage.getAll();
 
         Assertions.assertEquals(SIZE, collection.size());
+    }
+
+    @Test
+    public void testShouldReturnEmptyCollection(){
+        monitoringTaskStorage.create(
+                new CreateMonitoringTaskRequest("test monitoring task",
+                        "https://square.github.io/okhttp/",
+                        5, ChronoUnit.HOURS));
+
+        MonitoringTask savedTask = monitoringTaskStorage.getById(1).get();
+
+        savedTask.setName("new test monitoring task");
+
+        monitoringTaskStorage.updateExistingMonitoringTask(savedTask);
+
+        MonitoringTask updatedMonitoringTask = monitoringTaskStorage.getById(1).get();
+
+        Assertions.assertNotNull(updatedMonitoringTask);
+        Assertions.assertEquals(updatedMonitoringTask.getName(), savedTask.getName());
     }
 }

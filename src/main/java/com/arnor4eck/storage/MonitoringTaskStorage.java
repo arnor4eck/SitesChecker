@@ -5,4 +5,8 @@ import com.arnor4eck.util.request.CreateMonitoringTaskRequest;
 
 public interface MonitoringTaskStorage extends Storage<MonitoringTask> {
     MonitoringTask create(CreateMonitoringTaskRequest request);
+
+    /** Обноваление существующей сущности
+     * */
+    MonitoringTask updateExistingMonitoringTask(MonitoringTask monitoringTask);
 }
