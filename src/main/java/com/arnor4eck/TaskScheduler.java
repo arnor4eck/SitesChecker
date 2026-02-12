@@ -4,8 +4,7 @@ import com.arnor4eck.entity.MonitoringTask;
 import com.arnor4eck.storage.MonitoringTaskStorage;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Планировщик выполнения задач по мониторингу сайтов
@@ -14,11 +13,11 @@ public class TaskScheduler {
 
     /** Пул потоков для выполнения задач по мониторингу сайтов
      * */
-    private final ExecutorService tasksExecutor;
+    private ExecutorService tasksExecutor;
 
     /** Пул потока для запуска TaskScheduler
      * */
-    private final ExecutorService applicationExecutor;
+    private ExecutorService applicationExecutor;
 
     /** Работает ли TaskScheduler
      * */
@@ -38,17 +37,17 @@ public class TaskScheduler {
         this.taskRunnableFactory = taskRunnableFactory;
 
         this.running = new AtomicBoolean(false);
-        this.tasksExecutor = Executors.newThreadPerTaskExecutor(Thread.ofVirtual().factory());
-        this.applicationExecutor = Executors.newSingleThreadExecutor();
     }
 
     /** Старт планировщика
      * */
     public void start() {
-        if(running.get())
+        if(!running.compareAndSet(false, true))
             return;
 
-        running.set(true);
+        // при каждом новом запуске пересоздаем пулы
+        this.tasksExecutor = Executors.newThreadPerTaskExecutor(Thread.ofVirtual().factory());
+        this.applicationExecutor = Executors.newSingleThreadExecutor();
 
         applicationExecutor.submit(() -> {
             try {
@@ -79,6 +78,12 @@ public class TaskScheduler {
     /** Остановка планировщика
      * */
     public void stop() {
-        running.set(false);
+        if (running.compareAndSet(true, false)) {
+            tasksExecutor.close();
+            tasksExecutor = null;
+
+            applicationExecutor.close();
+            applicationExecutor = null;
+        }
     }
 }
