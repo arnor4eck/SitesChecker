@@ -1,6 +1,7 @@
 package com.arnor4eck.request_sender;
 
 import com.arnor4eck.util.Logger;
+import com.arnor4eck.util.exception.RequestNotSendException;
 
 import java.io.IOException;
 import java.net.URI;
