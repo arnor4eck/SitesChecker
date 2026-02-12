@@ -58,7 +58,6 @@ public class TaskScheduler {
                             ).forEach(this::submitTask);
 
                     Thread.sleep(100);
-                    System.out.println(running.get());
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
