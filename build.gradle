@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'com.arnor4eck'
@@ -7,6 +9,11 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+javafx {
+    version = '21'
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 dependencies {
@@ -27,4 +34,8 @@ test {
 
 tasks.withType(Javadoc){
     options.memberLevel = JavadocMemberLevel.PRIVATE
+}
+
+application{
+    mainClass = 'com.arnor4eck.Main'
 }
