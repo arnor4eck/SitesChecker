@@ -15,7 +15,7 @@ import lombok.Getter;
 import java.io.FileNotFoundException;
 
 @Getter
-public final class Header {
+public final class HeaderComponent {
 
     private final Button listButton;
     private final Button addButton;
@@ -23,7 +23,7 @@ public final class Header {
     private final Button startButton;
     private final Pane headerPane;
 
-    public Header() throws FileNotFoundException {
+    public HeaderComponent() throws FileNotFoundException {
         this.listButton = createHeaderButton("Список",
                 "/images/icon-list.png");
         this.addButton = createHeaderButton("Добавить",
