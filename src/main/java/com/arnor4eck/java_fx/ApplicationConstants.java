@@ -12,6 +12,7 @@ public class ApplicationConstants {
     public static final Color PRIMARY_COLOR = Color.web("#26282EFF");
     public static final Color LOG_COLOR = Color.web("#3F3F3FFF");
     public static final Background BASE_BACKGROUND = new Background(new BackgroundFill(ApplicationConstants.BASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY));
+    public static final Insets BASE_INSETS = new Insets(10);
 
     public static final Image LOGO;
     static {
