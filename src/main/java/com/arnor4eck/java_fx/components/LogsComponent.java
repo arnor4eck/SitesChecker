@@ -21,9 +21,10 @@ public final class LogsComponent {
     private final SplitPaneUtils splitPaneUtils;
 
     public LogsComponent(SplitPaneUtils splitPaneUtils) {
+        this.splitPaneUtils = Objects.requireNonNull(splitPaneUtils);
+
         this.logsArea = setUpTextArea();
         this.logsPane = setUpLogs();
-        this.splitPaneUtils = Objects.requireNonNull(splitPaneUtils);
     }
 
     private Pane setUpLogs(){
