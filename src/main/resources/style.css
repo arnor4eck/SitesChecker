@@ -1,0 +1,40 @@
+
+/* Меняем цвет разделителя */
+.split-pane-divider {
+    -fx-border-width: 1px;
+    -fx-padding: 0 1 0 1; /* 1px толщина */
+}
+
+/* Для вертикального разделения */
+.split-pane:vertical .split-pane-divider {
+    -fx-background-color: transparent;
+    -fx-padding: 0 2 0 2;
+}
+
+/* Для горизонтального разделения */
+.split-pane:horizontal .split-pane-divider {
+    -fx-background-color: yellow;
+    -fx-padding: 2 0 2 0;
+}
+
+.log-area {
+    -fx-control-inner-background: #3F3F3FFF;
+    -fx-background-color: #3F3F3FFF;
+
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+
+    -fx-text-fill: white;
+    -fx-font-family: 'Monospaced';
+    -fx-font-size: 12px;
+}
+
+.log-area .content {
+    -fx-background-color: #3F3F3FFF;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+}
