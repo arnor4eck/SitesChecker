@@ -6,9 +6,9 @@ import java.util.function.Consumer;
 
 /** Класс логгера
  * */
-public class Logger {
+public final class Logger {
 
-    private final Consumer<String> logger;
+    private Consumer<String> logger;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
@@ -22,6 +22,10 @@ public class Logger {
         INFO
     }
 
+    public void setLogger(Consumer<String> logger){
+        this.logger = logger;
+    }
+
     private Logger(Consumer<String> log){
         this.logger = log;
     };
@@ -33,7 +37,7 @@ public class Logger {
     private synchronized void log(Type type,
                      String message){
         logger.accept(String.format(
-                "[%s] %s // %s",
+                "[%s] %s // %s\n",
                 type.toString(), LocalDateTime.now().format(formatter), message
         ));
     }
