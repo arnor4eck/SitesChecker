@@ -10,7 +10,7 @@ public final class Logger {
 
     private Consumer<String> logger;
 
-    private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static class Holder{
         private static final Logger logger = new Logger(System.out::println);
