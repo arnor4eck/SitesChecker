@@ -30,7 +30,6 @@ public class InMemorySiteStatisticsStorage implements SiteStatisticsStorage {
                 request.monitoringTaskId());
 
         statistics.put(newStatistics.getId(), newStatistics);
-
     }
 
     @Override
@@ -38,6 +37,13 @@ public class InMemorySiteStatisticsStorage implements SiteStatisticsStorage {
         return statistics.values().stream()
                         .filter(s -> s.getMonitoringTaskId() == monitoringTaskId)
                         .max(Comparator.comparing(SiteStatistics::getCheckTime));
+    }
+
+    @Override
+    public Collection<SiteStatistics> getAllStatisticsByMonitoringTaskId(long monitoringTaskId) {
+        return statistics.values().stream()
+                .filter(s -> s.getMonitoringTaskId() == monitoringTaskId)
+                .toList();
     }
 
     @Override
