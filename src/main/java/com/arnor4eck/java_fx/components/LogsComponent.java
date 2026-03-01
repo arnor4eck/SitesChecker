@@ -6,7 +6,6 @@ import com.arnor4eck.util.Logger;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -17,17 +16,12 @@ public final class LogsComponent {
     private final Pane logsPane;
     private final TextArea logsArea;
 
-    @Getter(value = AccessLevel.NONE)
-    private final SplitPaneUtils splitPaneUtils;
-
     public LogsComponent(SplitPaneUtils splitPaneUtils) {
-        this.splitPaneUtils = Objects.requireNonNull(splitPaneUtils);
-
         this.logsArea = setUpTextArea();
-        this.logsPane = setUpLogs();
+        this.logsPane = setUpLogs(Objects.requireNonNull(splitPaneUtils));
     }
 
-    private Pane setUpLogs(){
+    private Pane setUpLogs(SplitPaneUtils splitPaneUtils){
         Pane pane = splitPaneUtils.createVBoxForSliding(5, 3, logsArea);
 
         pane.setBackground(new Background(

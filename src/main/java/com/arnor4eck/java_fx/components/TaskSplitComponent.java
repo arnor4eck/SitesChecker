@@ -1,11 +1,17 @@
 package com.arnor4eck.java_fx.components;
 
 import com.arnor4eck.java_fx.ApplicationConstants;
+import com.arnor4eck.java_fx.components.task_component.MonitoringTaskFX;
+import com.arnor4eck.java_fx.components.task_component.ObservableMonitoringTaskStorage;
 import com.arnor4eck.java_fx.utils.SplitPaneUtils;
+import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import lombok.Getter;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Getter
 public class TaskSplitComponent {
@@ -14,8 +20,9 @@ public class TaskSplitComponent {
     private final LogsComponent logsComponent;
     private final SplitPane taskSplitPane;
 
-    public TaskSplitComponent(SplitPaneUtils splitPaneUtils) {
-        this.tasksComponent = new TasksComponent(splitPaneUtils);
+    public TaskSplitComponent(SplitPaneUtils splitPaneUtils, Supplier<ObservableList<MonitoringTaskFX>> allTasks,
+                              Consumer<Long> onDeleteTask, Consumer<Long> onCheckTask) {
+        this.tasksComponent = new TasksComponent(splitPaneUtils, allTasks, onDeleteTask, onCheckTask);
         this.logsComponent = new LogsComponent(splitPaneUtils);
 
         this.taskSplitPane = setUpTasksPane();
