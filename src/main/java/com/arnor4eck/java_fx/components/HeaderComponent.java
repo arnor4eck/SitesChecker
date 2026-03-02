@@ -43,13 +43,7 @@ public final class HeaderComponent {
         button.setGraphic(logoView);
         button.setContentDisplay(ContentDisplay.TOP);
 
-        button.setStyle(
-                "-fx-background-color: #26282EFF;" +
-                        "-fx-border-color: grey;" +
-                        "-fx-border-radius: 2px;" +
-                        "-fx-border-width: 1px;" +
-                        "-fx-text-fill: white;"
-        );
+        button.getStyleClass().add("header-button");
 
         return button;
     }
