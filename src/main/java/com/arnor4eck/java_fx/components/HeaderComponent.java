@@ -30,7 +30,7 @@ public final class HeaderComponent {
     }
 
     private Button createHeaderButton(String name,
-                                      String path) throws FileNotFoundException {
+                                      String path) {
         Button button = new Button(name);
 
         Image logo = new Image(ApplicationUtils.class.getResourceAsStream(path));

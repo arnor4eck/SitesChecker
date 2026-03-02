@@ -1,7 +1,5 @@
 package com.arnor4eck.java_fx.components.create_task_component;
 
-import com.arnor4eck.SiteCheckerApplication;
-import com.arnor4eck.SiteCheckers;
 import com.arnor4eck.java_fx.ApplicationUtils;
 import com.arnor4eck.util.Logger;
 import com.arnor4eck.util.request.CreateMonitoringTaskRequest;
