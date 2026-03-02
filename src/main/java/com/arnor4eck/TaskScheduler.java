@@ -2,6 +2,7 @@ package com.arnor4eck;
 
 import com.arnor4eck.entity.MonitoringTask;
 import com.arnor4eck.storage.MonitoringTaskStorage;
+import com.arnor4eck.util.Logger;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.*;
@@ -14,6 +15,10 @@ public class TaskScheduler {
     /** Пул потоков для выполнения задач по мониторингу сайтов
      * */
     private ExecutorService tasksExecutor;
+
+    /** @see Logger
+     * */
+    private final Logger logger = Logger.getInstance();
 
     /** Пул потока для запуска TaskScheduler
      * */
@@ -45,6 +50,8 @@ public class TaskScheduler {
         if(!running.compareAndSet(false, true))
             return;
 
+        logger.info("Приложение запущено");
+
         // при каждом новом запуске пересоздаем пулы
         this.tasksExecutor = Executors.newThreadPerTaskExecutor(Thread.ofVirtual().factory());
         this.applicationExecutor = Executors.newSingleThreadExecutor();
@@ -72,11 +79,13 @@ public class TaskScheduler {
         monitoringTaskStorage.updateExistingMonitoringTask(task);
 
         tasksExecutor.submit(taskRunnableFactory.create(task));
+        logger.info("Сайт '%s' был проверен".formatted(task.getName()));
     }
 
     /** Остановка планировщика
      * */
     public void stop() {
+        logger.info("Остановка приложения...");
         if (running.compareAndSet(true, false)) {
             tasksExecutor.close();
             tasksExecutor = null;
@@ -84,5 +93,13 @@ public class TaskScheduler {
             applicationExecutor.close();
             applicationExecutor = null;
         }
+        logger.info("Приложение остановлено");
+    }
+
+    /** Работает ли приложение
+     * @return boolean - Запущено ли приложение
+     * */
+    public boolean isRunning() {
+        return running.get();
     }
 }

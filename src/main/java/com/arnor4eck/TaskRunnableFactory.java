@@ -4,11 +4,13 @@ import com.arnor4eck.entity.MonitoringTask;
 import com.arnor4eck.request_sender.HttpResponse;
 import com.arnor4eck.request_sender.RequestSender;
 import com.arnor4eck.statistics.ResultProcessor;
+import com.arnor4eck.util.Logger;
 
 public class TaskRunnableFactory {
 
     private final ResultProcessor resultProcessor;
     private final RequestSender requestSender;
+    private static final Logger logger = Logger.getInstance();
 
     public static class TaskRunnable implements Runnable {
         private final ResultProcessor resultProcessor;
@@ -25,9 +27,16 @@ public class TaskRunnableFactory {
 
         @Override
         public void run() {
-            HttpResponse r = requestSender.sendRequest(task.getUrl());
+            HttpResponse response = requestSender.sendRequest(task.getUrl());
 
-            resultProcessor.addStatistics(task.getId(), r);
+            String loggerResponse = "Сайт '%s' вернул код ответа: %d".formatted(task.getName(), response.httpCode());
+
+            if(response.httpCode() >= 400)
+                logger.warn(loggerResponse);
+            else
+                logger.info(loggerResponse);
+
+            resultProcessor.addStatistics(task.getId(), response);
         }
     }
 
