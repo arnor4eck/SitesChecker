@@ -1,6 +1,5 @@
 package com.arnor4eck.java_fx.components.task_component;
 
-import com.arnor4eck.entity.MonitoringTask;
 import com.arnor4eck.storage.MonitoringTaskStorage;
 import com.arnor4eck.util.request.CreateMonitoringTaskRequest;
 import javafx.collections.FXCollections;
@@ -25,7 +24,7 @@ public final class ObservableMonitoringTaskStorage {
     }
 
     public ObservableList<MonitoringTaskFX> getAll() {
-        return monitoringTasks;
+        return FXCollections.unmodifiableObservableList(monitoringTasks);
     }
 
     public void deleteById(long id) {
