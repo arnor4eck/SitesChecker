@@ -1,6 +1,6 @@
 package com.arnor4eck.java_fx.components;
 
-import com.arnor4eck.java_fx.ApplicationConstants;
+import com.arnor4eck.java_fx.ApplicationUtils;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -28,7 +28,7 @@ public final class BottomComponent {
     private Pane setUpBottom(){
         HBox bottom = new HBox();
         bottom.setPadding(new Insets(5));
-        bottom.setBackground(ApplicationConstants.BASE_BACKGROUND);
+        bottom.setBackground(ApplicationUtils.BASE_BACKGROUND);
 
         bottom.getChildren().addAll(this.status);
 

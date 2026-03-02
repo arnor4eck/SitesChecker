@@ -2,7 +2,7 @@ package com.arnor4eck.java_fx.components.create_task_component;
 
 import com.arnor4eck.SiteCheckerApplication;
 import com.arnor4eck.SiteCheckers;
-import com.arnor4eck.java_fx.ApplicationConstants;
+import com.arnor4eck.java_fx.ApplicationUtils;
 import com.arnor4eck.util.Logger;
 import com.arnor4eck.util.request.CreateMonitoringTaskRequest;
 import javafx.collections.FXCollections;
@@ -42,8 +42,8 @@ public final class CreateMonitoringTaskComponent {
 
     private Pane setUpCreateMonitoringTaskPane(){
         GridPane pane = new GridPane();
-        pane.setBackground(ApplicationConstants.BASE_BACKGROUND);
-        pane.setPadding(ApplicationConstants.BASE_INSETS);
+        pane.setBackground(ApplicationUtils.BASE_BACKGROUND);
+        pane.setPadding(ApplicationUtils.BASE_INSETS);
         pane.setHgap(10);
         pane.setVgap(10);
         pane.setAlignment(Pos.CENTER);
@@ -89,9 +89,10 @@ public final class CreateMonitoringTaskComponent {
                 Logger.getInstance().info("Сайт '%s' был добавлен в список мониторинга"
                         .formatted(name.getText()));
 
-                showAlert(Alert.AlertType.INFORMATION,
+                ApplicationUtils.alert(Alert.AlertType.INFORMATION,
                         "Успешно!",
-                        "Сайт '%s' был успешно добавлен в список мониторинга".formatted(name.getText()));
+                        "Сайт '%s' был успешно добавлен в список мониторинга".formatted(name.getText()))
+                        .show();
 
                 cleanFields();
             }
@@ -121,9 +122,10 @@ public final class CreateMonitoringTaskComponent {
         while (it.hasNext()) {
             FormGroup fr = (FormGroup) it.next();
             if(!fr.validate()){
-                showAlert(Alert.AlertType.ERROR,
+                ApplicationUtils.alert(Alert.AlertType.ERROR,
                         "Ошибка валидации!",
-                        "Ошибка в поле: " + fr.getLabel().getText());
+                        "Ошибка в поле: " + fr.getLabel().getText())
+                        .show();
 
                 return false;
             }
@@ -147,16 +149,5 @@ public final class CreateMonitoringTaskComponent {
             case "Час" -> ChronoUnit.HOURS;
             default -> throw new IllegalArgumentException();
         };
-    }
-
-    private void showAlert(Alert.AlertType type,
-                           String headerText,
-                           String contentText){
-        Alert error = new Alert(type);
-
-        error.setHeaderText(headerText);
-        error.setContentText(contentText);
-
-        error.show();
     }
 }

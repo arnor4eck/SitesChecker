@@ -1,6 +1,6 @@
 package com.arnor4eck.java_fx.components;
 
-import com.arnor4eck.java_fx.ApplicationConstants;
+import com.arnor4eck.java_fx.ApplicationUtils;
 import com.arnor4eck.java_fx.utils.SplitPaneUtils;
 import com.arnor4eck.util.Logger;
 import javafx.geometry.Insets;
@@ -25,7 +25,7 @@ public final class LogsComponent {
         Pane pane = splitPaneUtils.createVBoxForSliding(5, 3, logsArea);
 
         pane.setBackground(new Background(
-                new BackgroundFill(ApplicationConstants.LOG_COLOR, new CornerRadii(10), Insets.EMPTY)
+                new BackgroundFill(ApplicationUtils.LOG_COLOR, new CornerRadii(10), Insets.EMPTY)
         ));
 
         VBox.setVgrow(logsArea, Priority.ALWAYS);

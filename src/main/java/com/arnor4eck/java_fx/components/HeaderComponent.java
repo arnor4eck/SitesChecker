@@ -1,6 +1,6 @@
 package com.arnor4eck.java_fx.components;
 
-import com.arnor4eck.java_fx.ApplicationConstants;
+import com.arnor4eck.java_fx.ApplicationUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -33,7 +33,7 @@ public final class HeaderComponent {
                                       String path) throws FileNotFoundException {
         Button button = new Button(name);
 
-        Image logo = new Image(ApplicationConstants.class.getResourceAsStream(path));
+        Image logo = new Image(ApplicationUtils.class.getResourceAsStream(path));
         ImageView logoView = new ImageView(logo);
 
         logoView.setFitWidth(40);
@@ -60,8 +60,8 @@ public final class HeaderComponent {
                              EventHandler<ActionEvent> startButtonCallback) throws FileNotFoundException {
         HBox header = new HBox(); // общий HBox для всего хедера
 
-        header.setBackground(ApplicationConstants.BASE_BACKGROUND);
-        header.setPadding(ApplicationConstants.BASE_INSETS);
+        header.setBackground(ApplicationUtils.BASE_BACKGROUND);
+        header.setPadding(ApplicationUtils.BASE_INSETS);
 
         Button docButton = createHeaderButton("Документация",
                 "/images/icon-book.png");
