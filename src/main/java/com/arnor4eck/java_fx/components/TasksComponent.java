@@ -6,6 +6,7 @@ import com.arnor4eck.java_fx.ApplicationConstants;
 import com.arnor4eck.java_fx.components.task_component.MonitoringTaskFX;
 import com.arnor4eck.java_fx.components.task_component.ObservableMonitoringTaskStorage;
 import com.arnor4eck.java_fx.utils.SplitPaneUtils;
+import com.arnor4eck.java_fx.utils.TableViewBuilder;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -21,6 +22,8 @@ import lombok.Getter;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import static com.arnor4eck.java_fx.utils.TableViewBuilder.builder;
 
 @Getter
 public final class TasksComponent {
@@ -77,27 +80,20 @@ public final class TasksComponent {
         return contextMenu;
     }
 
-    @SuppressWarnings("unchecked")
     private TableView<MonitoringTaskFX> setUpTasksTableView(Supplier<ObservableList<MonitoringTaskFX>> getAllTasks){
-        TableView<MonitoringTaskFX> tableView = new TableView<>();
+
+        TableView<MonitoringTaskFX> tableView = TableViewBuilder
+                .<MonitoringTaskFX>builder()
+                .<Number>addColumn("ID", cellData -> cellData.getValue().id())
+                .<String>addColumn("Название",  cellData -> cellData.getValue().name())
+                .<String>addColumn("Ссылка",  cellData -> cellData.getValue().url())
+                .<Number>addColumn("Период", cellData -> cellData.getValue().period())
+                .<String>addColumn("Единица времени", cellData -> cellData.getValue().unit())
+                .build();
+
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
         tableView.getStylesheets().add(getClass().getResource("/table.css").toExternalForm());
 
-        TableColumn<MonitoringTaskFX, Number> idColumn = setUpColumn("ID",
-                cellData -> cellData.getValue().id());
-
-        TableColumn<MonitoringTaskFX, String> nameColumn = setUpColumn("Название",
-                cellData -> cellData.getValue().name());
-
-        TableColumn<MonitoringTaskFX, String> urlColumn = setUpColumn("Ссылка",
-                cellData -> cellData.getValue().url());
-
-        TableColumn<MonitoringTaskFX, Number> periodColumn = setUpColumn("Период",
-                cellData -> cellData.getValue().period());
-
-        TableColumn<MonitoringTaskFX, String> unitColumn = setUpColumn("Единица времени", cellData -> cellData.getValue().unit());
-
-        tableView.getColumns().addAll(idColumn, nameColumn, urlColumn, periodColumn, unitColumn);
         tableView.setItems(getAllTasks.get());
 
         tableView.setOnContextMenuRequested(event -> {
@@ -109,13 +105,5 @@ public final class TasksComponent {
         });
 
         return tableView;
-    }
-
-    private <T> TableColumn<MonitoringTaskFX, T> setUpColumn(String label,
-                                                             Callback<TableColumn.CellDataFeatures<MonitoringTaskFX, T>, ObservableValue<T>> getter){
-        TableColumn<MonitoringTaskFX, T> column = new TableColumn<>(label);
-        column.setCellValueFactory(getter);
-
-        return column;
     }
 }
