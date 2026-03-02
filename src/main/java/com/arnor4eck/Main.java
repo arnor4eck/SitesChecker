@@ -1,7 +1,10 @@
 package com.arnor4eck;
 
-public class Main {
-    public static void main(String[] args) {
+import com.arnor4eck.java_fx.SiteCheckerFX;
+import javafx.application.Application;
 
+public class Main{
+    public static void main(String[] args) {
+        Application.launch(SiteCheckerFX.class, args);
     }
 }
