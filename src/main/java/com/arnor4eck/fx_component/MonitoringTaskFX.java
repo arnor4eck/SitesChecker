@@ -1,4 +1,4 @@
-package com.arnor4eck.java_fx.components.task_component;
+package com.arnor4eck.fx_component;
 
 import com.arnor4eck.entity.MonitoringTask;
 import javafx.beans.property.LongProperty;

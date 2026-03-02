@@ -1,8 +1,8 @@
 package com.arnor4eck.java_fx.components;
 
 import com.arnor4eck.java_fx.ApplicationUtils;
-import com.arnor4eck.java_fx.components.task_component.MonitoringTaskFX;
-import com.arnor4eck.java_fx.components.task_component.SiteStatisticsFX;
+import com.arnor4eck.fx_component.MonitoringTaskFX;
+import com.arnor4eck.fx_component.SiteStatisticsFX;
 import com.arnor4eck.java_fx.utils.SplitPaneUtils;
 import com.arnor4eck.java_fx.utils.TableViewBuilder;
 import javafx.collections.ObservableList;
