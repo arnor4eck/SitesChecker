@@ -1,6 +1,7 @@
 package com.arnor4eck.java_fx.utils;
 
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
@@ -30,6 +31,7 @@ public final class TableViewBuilder<V> {
     public TableView<V> build(){
         TableView<V> tableView = new TableView<>();
         tableView.getColumns().addAll(columns);
+        tableView.setPlaceholder(new Label(""));
 
         return tableView;
     }
