@@ -18,6 +18,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 @Getter
 public final class CreateMonitoringTaskComponent {
@@ -30,17 +31,14 @@ public final class CreateMonitoringTaskComponent {
     @Getter(value = AccessLevel.NONE)
     private final FormGroupFactory formGroupFactory;
 
-    @Getter(value = AccessLevel.NONE)
-    private final SiteCheckerApplication siteCheckerApplication = SiteCheckers.getInstance();
-
-    public CreateMonitoringTaskComponent() {
+    public CreateMonitoringTaskComponent(Consumer<CreateMonitoringTaskRequest> createTask) {
         this.urlValidator = new UrlValidator(new String[]{"http", "https"},
                 UrlValidator.ALLOW_2_SLASHES | UrlValidator.ALLOW_ALL_SCHEMES);
         this.formGroupFactory = new FormGroupFactory();
-        createMonitoringTaskPane = setUpCreateMonitoringTaskPane();
+        this.createMonitoringTaskPane = setUpCreateMonitoringTaskPane(createTask);
     }
 
-    private Pane setUpCreateMonitoringTaskPane(){
+    private Pane setUpCreateMonitoringTaskPane(Consumer<CreateMonitoringTaskRequest> createTask){
         GridPane pane = new GridPane();
         pane.setBackground(ApplicationUtils.BASE_BACKGROUND);
         pane.setPadding(ApplicationUtils.BASE_INSETS);
@@ -79,7 +77,7 @@ public final class CreateMonitoringTaskComponent {
 
         create.setOnAction(event -> {
             if(this.validate()){
-                siteCheckerApplication.addTask(new CreateMonitoringTaskRequest(
+                createTask.accept(new CreateMonitoringTaskRequest(
                         name.getText(),
                         url.getText(),
                         Long.parseLong(period.getText()),
