@@ -5,6 +5,7 @@ import com.arnor4eck.request_sender.HttpResponse;
 import com.arnor4eck.request_sender.RequestSender;
 import com.arnor4eck.statistics.ResultProcessor;
 import com.arnor4eck.util.Logger;
+import com.arnor4eck.util.exception.RequestNotSendException;
 
 public class TaskRunnableFactory {
 
@@ -27,16 +28,23 @@ public class TaskRunnableFactory {
 
         @Override
         public void run() {
-            HttpResponse response = requestSender.sendRequest(task.getUrl());
+            try {
+                HttpResponse response = requestSender.sendRequest(task.getUrl());
 
-            String loggerResponse = "Сайт '%s' вернул код ответа: %d".formatted(task.getName(), response.httpCode());
+                String loggerResponse = "Сайт '%s' вернул код ответа: %d".formatted(task.getName(), response.httpCode());
 
-            if(response.httpCode() >= 400)
-                logger.warn(loggerResponse);
-            else
-                logger.info(loggerResponse);
+                if (response.httpCode() >= 400)
+                    logger.warn(loggerResponse);
+                else
+                    logger.info(loggerResponse);
 
-            resultProcessor.addStatistics(task.getId(), response);
+                resultProcessor.addStatistics(task.getId(), response);
+            } catch (RequestNotSendException e) {
+                logger.error(
+                        String.format("Ошибка отправки запроса в сайту '%s': %s",
+                                task.getName(), e.getMessage()));
+                logger.warn("Проверка не была записана");
+            }
         }
     }
 

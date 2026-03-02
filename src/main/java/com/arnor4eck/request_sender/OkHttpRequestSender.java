@@ -1,6 +1,5 @@
 package com.arnor4eck.request_sender;
 
-import com.arnor4eck.util.Logger;
 import com.arnor4eck.util.exception.RequestNotSendException;
 
 import java.io.IOException;
@@ -18,10 +17,6 @@ public class OkHttpRequestSender implements RequestSender {
     /** Клиент OkHttp
      * */
     private final HttpClient httpClient;
-
-    /** @see Logger
-     * */
-    private final Logger logger = Logger.getInstance();
 
     public OkHttpRequestSender() {
         this.httpClient = HttpClient.newBuilder()
@@ -47,10 +42,6 @@ public class OkHttpRequestSender implements RequestSender {
                     String.valueOf(r.body().hashCode()));
 
         } catch (IOException | InterruptedException e) {
-            logger.warn(
-                    String.format("Ошибка отправки запроса в сайту '%s': %s",
-                            url, e.getMessage()));
-
             throw new RequestNotSendException(e.getMessage(), e);
         }
     }
