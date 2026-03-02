@@ -29,6 +29,7 @@ public class ApplicationUtils {
 
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
+        alert.setTitle(headerText);
 
         return alert;
     }
