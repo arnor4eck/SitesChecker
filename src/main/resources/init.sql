@@ -12,5 +12,5 @@ CREATE TABLE IF NOT EXISTS site_statistics(
     http_code INTEGER NOT NULL,
     hash TEXT NOT NULL,
     is_same_hash BOOLEAN NOT NULL,
-    monitoring_task_id INTEGER REFERENCES monitoring_task(id)
+    monitoring_task_id INTEGER REFERENCES monitoring_task(id) ON DELETE CASCADE
 );
