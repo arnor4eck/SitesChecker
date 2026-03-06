@@ -1,4 +1,4 @@
-package com.arnor4eck.storage;
+package com.arnor4eck.storage.data_base;
 
 import com.arnor4eck.util.exception.DataBaseNotInitializedException;
 import com.zaxxer.hikari.HikariDataSource;
