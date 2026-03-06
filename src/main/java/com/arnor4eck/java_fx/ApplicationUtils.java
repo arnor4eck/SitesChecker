@@ -44,7 +44,7 @@ public class ApplicationUtils {
         };
     }
 
-    public ChronoUnit parseStringToChronoUnit(String value){
+    public static ChronoUnit parseStringToChronoUnit(String value){
         return switch (value){
             case "Секунда" -> ChronoUnit.SECONDS;
             case "Минута" -> ChronoUnit.MINUTES;
