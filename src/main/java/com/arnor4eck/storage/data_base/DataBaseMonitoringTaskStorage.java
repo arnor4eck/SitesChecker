@@ -5,17 +5,22 @@ import com.arnor4eck.java_fx.ApplicationUtils;
 import com.arnor4eck.storage.MonitoringTaskStorage;
 import com.arnor4eck.util.request.CreateMonitoringTaskRequest;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.sql.*;
+import java.util.*;
 
-public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage implements MonitoringTaskStorage {
+public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage<MonitoringTask> implements MonitoringTaskStorage {
     public DataBaseMonitoringTaskStorage(DataBase db) {
         super(db);
+    }
+
+    @Override
+    protected MonitoringTask extract(ResultSet rs) throws SQLException {
+        return new MonitoringTask(
+                rs.getLong("id"),
+                rs.getString("url"),
+                rs.getString("name"),
+                rs.getLong("period"),
+                ApplicationUtils.parseStringToChronoUnit(rs.getString("unit")));
     }
 
     @Override
@@ -62,6 +67,21 @@ public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage imple
 
     @Override
     public Collection<MonitoringTask> getAll() {
-        return List.of();
+        String statement = "SELECT * FROM monitoring_task";
+
+        List<MonitoringTask> monitoringTasks = new LinkedList<>();
+
+        try(Connection con = this.getConnection();
+            Statement st = con.createStatement()){
+
+            try(ResultSet rs = st.executeQuery(statement)){
+                while(rs.next())
+                    monitoringTasks.add(extract(rs));
+            }
+
+            return monitoringTasks;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
