@@ -1,6 +1,7 @@
 package com.arnor4eck.fx_component;
 
 import com.arnor4eck.entity.MonitoringTask;
+import com.arnor4eck.java_fx.ApplicationUtils;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,16 +20,7 @@ public record MonitoringTaskFX(LongProperty id,
             new SimpleStringProperty(task.getName()),
             new SimpleStringProperty(task.getUrl()),
             new SimpleLongProperty(task.getPeriod()),
-            new SimpleStringProperty(parseChronoUnitToString(task.getUnit()))
+            new SimpleStringProperty(ApplicationUtils.parseChronoUnitToString(task.getUnit()))
         );
-    }
-
-    private static String parseChronoUnitToString(ChronoUnit value) {
-        return switch (value) {
-            case SECONDS -> "Секунда";
-            case MINUTES -> "Минута";
-            case HOURS -> "Час";
-            default -> throw new IllegalArgumentException("Unsupported unit: " + value);
-        };
     }
 }

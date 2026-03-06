@@ -79,7 +79,7 @@ public final class CreateMonitoringTaskComponent {
                         name.getText(),
                         url.getText(),
                         Long.parseLong(period.getText()),
-                        parseStringToChronoUnit(unitsPick.getText())
+                        ApplicationUtils.parseStringToChronoUnit(unitsPick.getText())
                 ));
 
                 Logger.getInstance().info("Сайт '%s' был добавлен в список мониторинга"
@@ -136,14 +136,5 @@ public final class CreateMonitoringTaskComponent {
                 .stream()
                 .filter(n -> n instanceof FormGroup)
                 .forEach(fg -> ((FormGroup) fg).cleanField());
-    }
-
-    private ChronoUnit parseStringToChronoUnit(String value){
-        return switch (value){
-            case "Секунда" -> ChronoUnit.SECONDS;
-            case "Минута" -> ChronoUnit.MINUTES;
-            case "Час" -> ChronoUnit.HOURS;
-            default -> throw new IllegalArgumentException();
-        };
     }
 }

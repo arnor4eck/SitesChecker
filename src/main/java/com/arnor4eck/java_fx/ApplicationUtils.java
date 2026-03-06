@@ -9,6 +9,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class ApplicationUtils {
     public static final Color PRIMARY_COLOR = Color.web("#26282EFF");
@@ -32,6 +33,24 @@ public class ApplicationUtils {
         alert.setTitle(headerText);
 
         return alert;
+    }
+
+    public static String parseChronoUnitToString(ChronoUnit value) {
+        return switch (value) {
+            case SECONDS -> "Секунда";
+            case MINUTES -> "Минута";
+            case HOURS -> "Час";
+            default -> throw new IllegalArgumentException("Unsupported unit: " + value);
+        };
+    }
+
+    public ChronoUnit parseStringToChronoUnit(String value){
+        return switch (value){
+            case "Секунда" -> ChronoUnit.SECONDS;
+            case "Минута" -> ChronoUnit.MINUTES;
+            case "Час" -> ChronoUnit.HOURS;
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     private ApplicationUtils() {}
