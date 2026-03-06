@@ -6,6 +6,7 @@ import com.arnor4eck.storage.MonitoringTaskStorage;
 import com.arnor4eck.util.request.CreateMonitoringTaskRequest;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage<MonitoringTask> implements MonitoringTaskStorage {
@@ -20,7 +21,8 @@ public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage<Monit
                 rs.getString("url"),
                 rs.getString("name"),
                 rs.getLong("period"),
-                ApplicationUtils.parseStringToChronoUnit(rs.getString("unit")));
+                ApplicationUtils.parseStringToChronoUnit(rs.getString("unit")),
+                LocalDateTime.parse(rs.getString("next_check_time"), ApplicationUtils.formatter));
     }
 
     @Override
@@ -32,6 +34,7 @@ public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage<Monit
 
         try(Connection con = this.getConnection();
             PreparedStatement preparedStatement = con.prepareStatement(statement)){
+
             preparedStatement.setString(1, monitoringTask.getUrl());
             preparedStatement.setString(2, monitoringTask.getName());
             preparedStatement.setLong(3, monitoringTask.getPeriod());
@@ -52,15 +55,17 @@ public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage<Monit
 
     @Override
     public MonitoringTask updateExistingMonitoringTask(MonitoringTask monitoringTask) {
-        String query = "UPDATE monitoring_task SET url = ?, name = ?, period = ?, unit = ? WHERE id = ?";
+        String query = "UPDATE monitoring_task SET url = ?, name = ?, period = ?, unit = ?, next_check_time = ? WHERE id = ?";
 
         try(Connection con = this.getConnection();
             PreparedStatement ps = con.prepareStatement(query)){
+
             ps.setString(1, monitoringTask.getUrl());
             ps.setString(2, monitoringTask.getName());
             ps.setLong(3, monitoringTask.getPeriod());
             ps.setString(4, ApplicationUtils.parseChronoUnitToString(monitoringTask.getUnit()));
-            ps.setLong(5, monitoringTask.getId());
+            ps.setString(5, monitoringTask.getNextCheckTime().format(ApplicationUtils.formatter));
+            ps.setLong(6, monitoringTask.getId());
 
             ps.executeUpdate();
 
