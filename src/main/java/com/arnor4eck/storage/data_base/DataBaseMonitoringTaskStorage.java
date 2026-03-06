@@ -57,12 +57,35 @@ public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage<Monit
 
     @Override
     public Optional<MonitoringTask> getById(long id) {
-        return Optional.empty();
+        String statement = "SELECT * FROM monitoring_task WHERE id = ?";
+
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(statement)){
+            ps.setLong(1, id);
+
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                    return Optional.of(extract(rs));
+            }
+
+            return Optional.empty();
+        }catch(SQLException e){
+            throw new RuntimeException("Не найти задачу", e);
+        }
     }
 
     @Override
     public void deleteById(long id) {
+        String statement = "DELETE FROM monitoring_task WHERE id = ?";
 
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(statement)){
+            ps.setLong(1, id);
+
+            ps.executeUpdate();
+        }catch(SQLException e){
+            throw new RuntimeException("Не удалить задачу", e);
+        }
     }
 
     @Override
@@ -81,7 +104,7 @@ public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage<Monit
 
             return monitoringTasks;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Не удалось выполнить запрос", e);
         }
     }
 }
