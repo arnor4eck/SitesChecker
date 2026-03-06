@@ -27,6 +27,7 @@ public class DataBase implements AutoCloseable {
         source.setJdbcUrl(jdbcUrl);
         source.setDriverClassName("org.sqlite.JDBC");
         source.setMaximumPoolSize(6);
+        source.setConnectionInitSql("PRAGMA foreign_keys = ON"); // для всешних ключей
         source.setConnectionTimeout(30000);
         source.setIdleTimeout(600000);
         source.setMaxLifetime(1800000);
