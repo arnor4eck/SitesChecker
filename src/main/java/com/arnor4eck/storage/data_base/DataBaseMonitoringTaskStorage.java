@@ -52,7 +52,22 @@ public class DataBaseMonitoringTaskStorage extends AbstractDataBaseStorage<Monit
 
     @Override
     public MonitoringTask updateExistingMonitoringTask(MonitoringTask monitoringTask) {
-        return null;
+        String query = "UPDATE monitoring_task SET url = ?, name = ?, period = ?, unit = ? WHERE id = ?";
+
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(query)){
+            ps.setString(1, monitoringTask.getUrl());
+            ps.setString(2, monitoringTask.getName());
+            ps.setLong(3, monitoringTask.getPeriod());
+            ps.setString(4, ApplicationUtils.parseChronoUnitToString(monitoringTask.getUnit()));
+            ps.setLong(5, monitoringTask.getId());
+
+            ps.executeUpdate();
+
+            return monitoringTask;
+        }catch(SQLException e){
+            throw new RuntimeException("Не удалось обновить задачу", e);
+        }
     }
 
     @Override
