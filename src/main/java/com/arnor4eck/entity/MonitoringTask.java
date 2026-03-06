@@ -44,6 +44,16 @@ public final class MonitoringTask {
         changeNextCheckTime();
     }
 
+    public MonitoringTask(long id, String url, String name,
+                          long period, ChronoUnit unit, LocalDateTime nextCheckTime) {
+        this.url = url;
+        this.id = id;
+        this.name = name;
+        this.period = period;
+        this.unit = unit;
+        this.nextCheckTime = nextCheckTime;
+    }
+
     /** Изменятет время следующей проверки сайта
      * */
     public void changeNextCheckTime(){
