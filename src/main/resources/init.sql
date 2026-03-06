@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS monitoring_task(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
     next_check_time TEXT NOT NULL,
     url TEXT NOT NULL,
     period INTEGER NOT NULL,
