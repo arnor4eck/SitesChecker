@@ -1,8 +1,10 @@
 package com.arnor4eck.storage.data_base;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-abstract class AbstractDataBaseStorage {
+abstract class AbstractDataBaseStorage<T> {
 
     private final DataBase db;
 
@@ -18,4 +20,5 @@ abstract class AbstractDataBaseStorage {
         }
     }
 
+    protected abstract T extract(ResultSet rs) throws SQLException;
 }
