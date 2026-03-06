@@ -9,6 +9,7 @@ import com.arnor4eck.java_fx.components.TaskSplitComponent;
 import com.arnor4eck.java_fx.utils.SplitPaneUtils;
 import com.arnor4eck.util.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -102,6 +103,16 @@ public class SiteCheckerFX extends Application {
 
         prepareMainStage(stage);
         stage.setScene(scene);
+
+        stage.setOnCloseRequest(event -> {
+            event.consume();
+
+            new Thread(() -> {
+                app.stop();
+
+                Platform.runLater(stage::close);
+            }).start();
+        });
 
         Logger.getInstance().info("Приложение готово к работе");
     }
