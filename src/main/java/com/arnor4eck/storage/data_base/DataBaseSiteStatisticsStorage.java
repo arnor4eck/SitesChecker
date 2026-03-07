@@ -16,12 +16,27 @@ public class DataBaseSiteStatisticsStorage extends AbstractDataBaseStorage<SiteS
 
     @Override
     public void create(CreateSiteStatisticsRequest request) {
+        String query = "INSERT INTO site_statistics(check_time, http_code, hash, is_same_hash, monitoring_task_id) VALUES(?,?,?,?,?)";
 
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(query)){
+
+            ps.setString(1, request.checkTime().format(ApplicationUtils.formatter));
+            ps.setShort(2, request.httpCode());
+            ps.setString(3, request.hash());
+            ps.setBoolean(4, request.isSameHash());
+            ps.setLong(5, request.monitoringTaskId());
+
+            ps.executeUpdate();
+
+        }catch(SQLException e){
+            throw new RuntimeException("Не удалось создать элемент статистики", e);
+        }
     }
 
     @Override
     public Optional<SiteStatistics> getLastStatisticsByMonitoringTaskId(long monitoringTaskId) {
-        String query = "SELECT * FROM site_statistics ORDER BY id DESC LIMIT 1;";
+        String query = "SELECT * FROM site_statistics WHERE monitoring_task_id = ? ORDER BY id DESC LIMIT 1;";
 
         try(Connection con = this.getConnection();
             PreparedStatement ps = con.prepareStatement(query)){
