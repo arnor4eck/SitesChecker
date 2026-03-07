@@ -21,7 +21,20 @@ public class DataBaseSiteStatisticsStorage extends AbstractDataBaseStorage<SiteS
 
     @Override
     public Optional<SiteStatistics> getLastStatisticsByMonitoringTaskId(long monitoringTaskId) {
-        return Optional.empty();
+        String query = "SELECT * FROM site_statistics ORDER BY id DESC LIMIT 1;";
+
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(query)){
+            ps.setLong(1, monitoringTaskId);
+
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                    return Optional.of(extract(rs));
+            }
+            return Optional.empty();
+        }catch(SQLException e){
+            throw new RuntimeException("Не найти элементы статистики", e);
+        }
     }
 
     @Override
