@@ -31,7 +31,21 @@ public class DataBaseSiteStatisticsStorage extends AbstractDataBaseStorage<SiteS
 
     @Override
     public Optional<SiteStatistics> getById(long id) {
-        return Optional.empty();
+        String statement = "SELECT * FROM site_statistics WHERE id = ?";
+
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(statement)){
+            ps.setLong(1, id);
+
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                    return Optional.of(extract(rs));
+            }
+
+            return Optional.empty();
+        }catch(SQLException e){
+            throw new RuntimeException("Не найти элемент статистики", e);
+        }
     }
 
     @Override
