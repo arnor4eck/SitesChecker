@@ -64,7 +64,7 @@ public class TaskScheduler {
                                     task.getNextCheckTime().isBefore(LocalDateTime.now())
                             ).forEach(this::submitTask);
 
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
