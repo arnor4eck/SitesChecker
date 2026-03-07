@@ -1,6 +1,7 @@
 package com.arnor4eck.storage.data_base;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,6 +18,14 @@ abstract class AbstractDataBaseStorage<T> {
             return db.getConnection();
         }catch(Exception e) {
             throw new RuntimeException("Ошибка подключения к базе данных", e);
+        }
+    }
+
+    protected final <R> R executeQuery(String query,
+                               ThrowingFunction<PreparedStatement, R> function) throws SQLException {
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(query)){
+            return function.apply(ps);
         }
     }
 
