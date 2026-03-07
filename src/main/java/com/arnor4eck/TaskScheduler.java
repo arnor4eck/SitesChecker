@@ -36,6 +36,8 @@ public class TaskScheduler {
      * */
     private final TaskRunnableFactory taskRunnableFactory;
 
+    private final long TIME_TO_SLEEP = 500;
+
     public TaskScheduler(TaskRunnableFactory taskRunnableFactory,
                          MonitoringTaskStorage monitoringTaskStorage) {
         this.monitoringTaskStorage = monitoringTaskStorage;
@@ -64,7 +66,7 @@ public class TaskScheduler {
                                     task.getNextCheckTime().isBefore(LocalDateTime.now())
                             ).forEach(this::submitTask);
 
-                    Thread.sleep(500);
+                    Thread.sleep(TIME_TO_SLEEP);
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
