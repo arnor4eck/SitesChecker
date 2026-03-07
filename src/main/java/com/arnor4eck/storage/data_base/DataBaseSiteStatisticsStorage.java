@@ -26,7 +26,21 @@ public class DataBaseSiteStatisticsStorage extends AbstractDataBaseStorage<SiteS
 
     @Override
     public Collection<SiteStatistics> getAllStatisticsByMonitoringTaskId(long monitoringTaskId) {
-        return List.of();
+        String query = "SELECT * FROM site_statistics WHERE monitoring_task_id = ?";
+        List<SiteStatistics> siteStatisticsList = new LinkedList<>();
+
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(query)){
+            ps.setLong(1, monitoringTaskId);
+
+            try(ResultSet rs = ps.executeQuery()){
+                while(rs.next())
+                    siteStatisticsList.add(extract(rs));
+            }
+            return siteStatisticsList;
+        }catch(SQLException e){
+            throw new RuntimeException("Не найти элементы статистики", e);
+        }
     }
 
     @Override
