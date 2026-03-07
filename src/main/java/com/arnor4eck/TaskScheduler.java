@@ -69,7 +69,8 @@ public class TaskScheduler {
                     Thread.sleep(TIME_TO_SLEEP);
                 }
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                running.set(false);
+                Thread.currentThread().interrupt();
             }
         });
     }
