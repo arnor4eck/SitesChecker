@@ -5,10 +5,7 @@ import com.arnor4eck.java_fx.ApplicationUtils;
 import com.arnor4eck.storage.SiteStatisticsStorage;
 import com.arnor4eck.util.request.CreateSiteStatisticsRequest;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -39,7 +36,16 @@ public class DataBaseSiteStatisticsStorage extends AbstractDataBaseStorage<SiteS
 
     @Override
     public void deleteById(long id) {
+        String statement = "DELETE FROM site_statistics WHERE id = ?";
 
+        try(Connection con = this.getConnection();
+            PreparedStatement ps = con.prepareStatement(statement)){
+            ps.setLong(1, id);
+
+            ps.executeUpdate();
+        }catch(SQLException e){
+            throw new RuntimeException("Не удалить элемент статистики", e);
+        }
     }
 
     @Override
