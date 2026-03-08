@@ -14,7 +14,7 @@ public class TaskScheduler {
 
     /** Пул потоков для выполнения задач по мониторингу сайтов
      * */
-    private ExecutorService tasksExecutor;
+    private final ExecutorService tasksExecutor;
 
     /** @see Logger
      * */
@@ -22,7 +22,7 @@ public class TaskScheduler {
 
     /** Пул потока для запуска TaskScheduler
      * */
-    private ExecutorService applicationExecutor;
+    private final ExecutorService applicationExecutor;
 
     /** Работает ли TaskScheduler
      * */
@@ -43,6 +43,9 @@ public class TaskScheduler {
         this.monitoringTaskStorage = monitoringTaskStorage;
         this.taskRunnableFactory = taskRunnableFactory;
 
+        this.tasksExecutor = Executors.newThreadPerTaskExecutor(Thread.ofVirtual().factory());
+        this.applicationExecutor = Executors.newSingleThreadExecutor();
+
         this.running = new AtomicBoolean(false);
     }
 
@@ -53,10 +56,6 @@ public class TaskScheduler {
             return;
 
         logger.info("Приложение запущено");
-
-        // при каждом новом запуске пересоздаем пулы
-        this.tasksExecutor = Executors.newThreadPerTaskExecutor(Thread.ofVirtual().factory());
-        this.applicationExecutor = Executors.newSingleThreadExecutor();
 
         applicationExecutor.submit(() -> {
             try {
@@ -88,14 +87,7 @@ public class TaskScheduler {
     /** Остановка планировщика
      * */
     public void stop() {
-        logger.info("Остановка приложения...");
-        if (running.compareAndSet(true, false)) {
-            tasksExecutor.close();
-            tasksExecutor = null;
-
-            applicationExecutor.close();
-            applicationExecutor = null;
-        }
+        running.compareAndSet(true, false);
         logger.info("Приложение остановлено");
     }
 
@@ -104,5 +96,26 @@ public class TaskScheduler {
      * */
     public boolean isRunning() {
         return running.get();
+    }
+
+    public void shutDown(){
+        stop();
+
+        logger.info("Завершение приложения...");
+        if(!applicationExecutor.isShutdown())
+            applicationExecutor.shutdown();
+
+        if(!tasksExecutor.isShutdown()){
+            tasksExecutor.shutdown();
+            try {
+                if(!tasksExecutor.awaitTermination(5000, TimeUnit.MILLISECONDS)){
+                    logger.warn("Не все задачи мониторинга были закончены");
+                    tasksExecutor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                tasksExecutor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 }

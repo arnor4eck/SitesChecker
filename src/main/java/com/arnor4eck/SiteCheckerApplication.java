@@ -44,6 +44,10 @@ public class SiteCheckerApplication {
         scheduler.stop();
     }
 
+    public void shutDown(){
+        scheduler.shutDown();
+    }
+
     public void addTask(CreateMonitoringTaskRequest request){
         monitoringTaskStorage.create(request);
     }

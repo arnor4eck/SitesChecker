@@ -51,8 +51,8 @@ public class SiteCheckerFX extends Application {
                     mainPane.setCenter(this.createMonitoringTaskComponent.getCreateMonitoringTaskPane());
                 },
                 event -> {
-                    try {
-                        InputStream in = getClass().getResourceAsStream("/doc.html");
+                    try (InputStream in = getClass().getResourceAsStream("/doc.html")) {
+
                         File tempFile = File.createTempFile("doc", ".html");
                         tempFile.deleteOnExit();
 
@@ -108,7 +108,7 @@ public class SiteCheckerFX extends Application {
             event.consume();
 
             new Thread(() -> {
-                app.stop();
+                app.shutDown();
 
                 Platform.runLater(stage::close);
             }).start();
