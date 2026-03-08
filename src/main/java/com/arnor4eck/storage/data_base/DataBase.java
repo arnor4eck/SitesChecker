@@ -2,10 +2,10 @@ package com.arnor4eck.storage.data_base;
 
 import com.arnor4eck.util.exception.DataBaseNotInitializedException;
 import com.zaxxer.hikari.HikariDataSource;
+import kotlin.text.Charsets;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -36,8 +36,11 @@ public class DataBase implements AutoCloseable {
     }
 
     private void initDb() throws SQLException, IOException {
-        try(Statement preparedStatement = this.getConnection().createStatement()){
-            String prepareDB = new String(Files.readAllBytes(Path.of("src/main/resources/init.sql")));
+
+        try(InputStream in = DataBase.class.getResourceAsStream("/init.sql");
+            Statement preparedStatement = this.getConnection().createStatement()){
+
+            String prepareDB = new String(in.readAllBytes(), Charsets.UTF_8);
             String[] scripts = prepareDB.split(";");
 
             for(String s: scripts)
