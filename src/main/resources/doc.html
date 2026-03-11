@@ -1,1 +1,345 @@
-<h1>Здесь будет документация</h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SitesChecker — Руководство пользователя</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            color: #2c5282;
+            border-bottom: 2px solid #2c5282;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2b6cb0;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2c7a7b;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .note {
+            background-color: #e6fffa;
+            border-left: 4px solid #2c7a7b;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .warning {
+            background-color: #fff5f5;
+            border-left: 4px solid #c53030;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .step {
+            background-color: #edf2f7;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .step-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: #2b6cb0;
+            color: white;
+            text-align: center;
+            line-height: 25px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #cbd5e0;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #e2e8f0;
+            color: #2d3748;
+        }
+        tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        code {
+            background-color: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            color: #2d3748;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📖 SitesChecker — Руководство пользователя</h1>
+    
+    <p><strong>SitesChecker</strong> — это приложение для периодического мониторинга доступности сайтов и отслеживания изменений их контента.</p>
+
+    <h2>📋 Содержание</h2>
+    <ol>
+        <li><a href="#interface">Интерфейс приложения</a></li>
+        <li><a href="#create-task">Создание задачи мониторинга</a></li>
+        <li><a href="#view-statistics">Просмотр статистики</a></li>
+        <li><a href="#manage-tasks">Управление задачами</a></li>
+        <li><a href="#logs">Просмотр логов</a></li>
+    </ol>
+
+    <h2 id="interface">🖥️ 1. Интерфейс приложения</h2>
+
+    <h3>Верхняя панель</h3>
+    
+    <table>
+        <tr>
+            <th>Кнопка</th>
+            <th>Назначение</th>
+        </tr>
+        <tr>
+            <td>➕ <strong>Добавить</strong></td>
+            <td>Открывает форму создания новой задачи мониторинга</td>
+        </tr>
+        <tr>
+            <td>📋 <strong>Список</strong></td>
+            <td>Возвращает к списку всех задач мониторинга</td>
+        </tr>
+        <tr>
+            <td>📖 <strong>Документация</strong></td>
+            <td>Открывает это руководство пользователя</td>
+        </tr>
+        <tr>
+            <td>▶️ <strong>Старт/Стоп</strong></td>
+            <td>Запускает или останавливает все задачи мониторинга</td>
+        </tr>
+    </table>
+
+    <h3>Основная область</h3>
+    <p>Отображает список задач мониторинга, форму создания новой задачи или статистику проверок.</p>
+
+    <h3>Нижняя панель</h3>
+    <p>Содержит область логов и индикатор статуса:</p>
+    <ul>
+        <li><strong>Статус: Запущено</strong> — мониторинг активен</li>
+        <li><strong>Статус: Ожидание</strong> — мониторинг остановлен</li>
+    </ul>
+
+    <h2 id="create-task">➕ 2. Создание задачи мониторинга</h2>
+
+    <div class="step">
+        <span class="step-number">1</span>
+        <strong>Нажмите кнопку «Добавить» в верхней панели.</strong>
+    </div>
+
+    <div class="step">
+        <span class="step-number">2</span>
+        <strong>Заполните форму:</strong>
+        <table>
+            <tr>
+                <th>Поле</th>
+                <th>Описание</th>
+                <th>Пример</th>
+            </tr>
+            <tr>
+                <td><strong>Название</strong></td>
+                <td>Имя задачи для удобного распознавания</td>
+                <td><code>Google Homepage</code></td>
+            </tr>
+            <tr>
+                <td><strong>Ссылка</strong></td>
+                <td>URL сайта (должен начинаться с <code>http://</code> или <code>https://</code>)</td>
+                <td><code>https://google.com</code></td>
+            </tr>
+            <tr>
+                <td><strong>Период</strong></td>
+                <td>Числовое значение интервала проверки (должно быть больше 0)</td>
+                <td><code>5</code></td>
+            </tr>
+            <tr>
+                <td><strong>Единица времени</strong></td>
+                <td>Единица измерения периода</td>
+                <td>Секунда / Минута / Час</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="step">
+        <span class="step-number">3</span>
+        <strong>Нажмите кнопку «Создать» для сохранения задачи.</strong>
+    </div>
+
+    <div class="step">
+        <span class="step-number">4</span>
+        <strong>При необходимости нажмите «Очистить» для сброса полей формы.</strong>
+    </div>
+
+    <div class="warning">
+        <strong>⚠️ Важно:</strong> Все поля обязательны для заполнения. При ошибке валидации появится сообщение с указанием проблемного поля.
+    </div>
+
+    <div class="note">
+        <strong>💡 Пример:</strong> Для проверки сайта каждые 5 минут:
+        <ul>
+            <li>Название: <code>Мой сайт</code></li>
+            <li>Ссылка: <code>https://mysite.com</code></li>
+            <li>Период: <code>5</code></li>
+            <li>Единица времени: <code>Минута</code></li>
+        </ul>
+    </div>
+
+    <h2 id="view-statistics">📊 3. Просмотр статистики</h2>
+
+    <h3>Просмотр списка задач</h3>
+    <p>Нажмите кнопку <strong>«Список»</strong> для отображения всех задач в виде таблицы:</p>
+    <table>
+        <tr>
+            <th>Колонка</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>Уникальный идентификатор задачи</td>
+        </tr>
+        <tr>
+            <td><strong>Название</strong></td>
+            <td>Имя задачи мониторинга</td>
+        </tr>
+        <tr>
+            <td><strong>Ссылка</strong></td>
+            <td>URL monitored сайта</td>
+        </tr>
+        <tr>
+            <td><strong>Период</strong></td>
+            <td>Интервал проверки</td>
+        </tr>
+        <tr>
+            <td><strong>Единица времени</strong></td>
+            <td>Единица измерения периода</td>
+        </tr>
+    </table>
+
+    <h3>Просмотр истории проверок</h3>
+    <div class="step">
+        <span class="step-number">1</span>
+        <strong>Щёлкните правой кнопкой мыши по задаче в списке.</strong>
+    </div>
+
+    <div class="step">
+        <span class="step-number">2</span>
+        <strong>В контекстном меню выберите «Проверки».</strong>
+    </div>
+
+    <div class="step">
+        <span class="step-number">3</span>
+        <strong>Откроется таблица с историей проверок:</strong>
+        <table>
+            <tr>
+                <th>Колонка</th>
+                <th>Описание</th>
+            </tr>
+            <tr>
+                <td><strong>Время проверки</strong></td>
+                <td>Дата и время выполнения проверки</td>
+            </tr>
+            <tr>
+                <td><strong>Код ответа</strong></td>
+                <td>HTTP-код ответа сервера (200 = OK, 404 = Not Found, и т.д.)</td>
+            </tr>
+            <tr>
+                <td><strong>Изменение</strong></td>
+                <td>Показывает, изменился ли контент страницы с последней проверки</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="note">
+        <strong>💡 Как работает обнаружение изменений:</strong> Приложение вычисляет хеш содержимого страницы и сравнивает его с предыдущим значением. Если хеши не совпадают — контент изменился.
+    </div>
+
+    <h2 id="manage-tasks">⚙️ 4. Управление задачами</h2>
+
+    <h3>Удаление задачи</h3>
+    <div class="step">
+        <span class="step-number">1</span>
+        <strong>Щёлкните правой кнопкой мыши по задаче в списке.</strong>
+    </div>
+
+    <div class="step">
+        <span class="step-number">2</span>
+        <strong>В контекстном меню выберите «Удалить».</strong>
+    </div>
+
+    <div class="step">
+        <span class="step-number">3</span>
+        <strong>Подтвердите удаление в диалоговом окне.</strong>
+    </div>
+
+    <div class="warning">
+        <strong>⚠️ Важно:</strong> Удаление задачи необратимо. Вся история проверок для этой задачи также будет удалена.
+    </div>
+
+    <h3>Запуск/Остановка мониторинга</h3>
+    <ul>
+        <li>Нажмите кнопку <strong>«Старт»</strong> для запуска всех задач мониторинга</li>
+        <li>Нажмите кнопку <strong>«Стоп»</strong> для временной остановки мониторинга</li>
+    </ul>
+
+    <div class="note">
+        <strong>💡 Совет:</strong> При остановке мониторинга все запланированные проверки приостанавливаются до повторного запуска.
+    </div>
+
+    <h2 id="logs">📝 5. Просмотр логов</h2>
+
+    <p>В нижней части окна отображается область логов:</p>
+
+    <table>
+        <tr>
+            <th>Тип сообщения</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>INFO</td>
+            <td>Успешные проверки, запуск/остановка приложения</td>
+        </tr>
+        <tr>
+            <td>WARN</td>
+            <td>Проблемы с подключением, таймауты</td>
+        </tr>
+        <tr>
+            <td>ERROR</td>
+            <td>Критические ошибки подключения или обработки</td>
+        </tr>
+    </table>
+
+    <h3>Примеры сообщений:</h3>
+    <ul>
+        <li><code>Приложение запущено</code> — мониторинг активирован</li>
+        <li><code>Сайт 'Google Homepage' был проверен</code> — проверка выполнена успешно</li>
+        <li><code>Сайт 'Мой сайт' был добавлен в список мониторинга</code> — задача создана</li>
+        <li><code>Приложение готово к работе</code> — приложение инициализировано</li>
+    </ul>
+
+    <hr style="margin-top: 40px; border-color: #cbd5e0;">
+
+    <p style="text-align: center; color: #718096;">
+        <strong>SitesChecker v1.0</strong>
+    </p>
+
+</body>
+</html>
